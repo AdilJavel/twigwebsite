@@ -1,0 +1,229 @@
+<style>
+	.infocontainer {
+		background-image: url('{{template.path}}/images/infobg.jpg');
+			background-size: cover;
+			background-color: rgba(0, 102, 204, 0.7); /* Adjust the alpha value to make the color more or less transparent */
+			color: white;
+			background-position: center 35%;
+
+			}
+
+	.charts_orb {
+		display:flex;
+		align-items:flex-start;
+		justify-content:center;
+		flex-wrap:wrap;
+		font-family:arial;
+		color:white;
+	}
+	.orb {
+		padding:20px;
+	}
+	.orb_graphic {
+		position:relative;
+	}
+	.orb_value {
+		position:absolute;
+		top:0;
+		left:0;
+		margin-left:0;
+		width:100%;
+		height:100%;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		font-size:2.1em;
+		font-weight:bold;
+	}
+
+	.orb_label {
+		text-transform:uppercase;
+		text-align:center;
+		margin-top:1em;
+	}
+	svg {
+		width: 150px;
+		height: 150px;
+		transform: rotate(-90deg);
+	}
+
+	circle {
+		fill: transparent;
+		stroke-width: 3;
+		r: 65;
+		cx: 75;
+		cy: 75;
+	}
+
+	.fill {
+		stroke: #0066CC;
+	}
+
+	.progress {
+		stroke: #FFF;
+		stroke-dasharray: 566;
+		stroke-dashoffset: 566;
+	}
+	.progress.animate {
+		animation: progress 20s ease-out forwards;
+		animation-timing-function: cubic-bezier(0.1, 0.9, 0.3, 0.9);
+	}
+
+
+	@keyframes progress {
+		100% {
+			stroke-dashoffset: 0;
+		}
+	}
+
+
+
+
+
+	.undercircle {
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 29px;
+		text-transform: uppercase;
+	}
+	.circlecols {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+
+
+</style>
+<div class="" style="width: 100%; margin-right:0; margin-left:0; padding-bottom:0;">
+	<div class="infocontainer">
+		<div class="row justify-content-center" style="background-color: rgba(0, 102, 204, 0.7); width:100%; margin:0">
+			<div class="charts_orb row">
+				<div class="orb col-lg-3 col-sm-12 text-center">
+					<div class="orb_graphic">
+						<svg>
+							<circle class="fill"></circle>
+							<circle class="progress"></circle>
+						</svg>
+						{{widgetRender(
+							'numbers1',
+							'80',
+							{
+								container: 'div',
+								class: 'orb_value count',
+							}
+						)}}
+					</div>
+					<div class="orb_label">
+						{{translate['cms.cabinets']}}
+					</div>
+				</div>
+
+				<div class="orb col-lg-3 col-sm-12 text-center">
+					<div class="orb_graphic">
+						<svg>
+							<circle class="fill"></circle>
+							<circle class="progress"></circle>
+						</svg>
+						{{widgetRender(
+							'numbers2',
+							'140',
+							{
+								container: 'div',
+								class: 'orb_value count',
+							}
+						)}}
+					</div>
+					<div class="orb_label">
+						{{translate['cms.computer']}}
+					</div>
+				</div>
+
+				<div class="orb col-lg-3 col-sm-12 text-center">
+					<div class="orb_graphic">
+						<svg>
+							<circle class="fill"></circle>
+							<circle class="progress"></circle>
+						</svg>
+						{{widgetRender(
+							'numbers3',
+							'250',
+							{
+								container: 'div',
+								class: 'orb_value count',
+							}
+						)}}
+					</div>
+					<div class="orb_label">
+						{{translate['cms.teachers']}}
+					</div>
+				</div>
+
+				<div class="orb col-lg-3 col-sm-12 text-center">
+					<div class="orb_graphic">
+						<svg>
+							<circle class="fill"></circle>
+							<circle class="progress"></circle>
+						</svg>
+						{{widgetRender(
+							'numbers4',
+							'3200',
+							{
+								container: 'div',
+								class: 'orb_value count',
+							}
+						)}}
+					</div>
+					<div class="orb_label">
+						{{translate['cms.students']}}
+					</div>
+				</div>
+			</div>
+			<script>
+				// select the target element
+				const targetElement = document.querySelector('.orb_graphic');
+
+				// set options for the IntersectionObserver
+				const options = {
+					root: null,
+					rootMargin: '0px',
+					threshold: 0.5 // when 50% of the element is visible
+				};
+
+				// create the observer
+				const observer = new IntersectionObserver(function(entries, observer) {
+					// if the target element is in the viewport
+					if (entries[0].isIntersecting) {
+						// run the count animation script
+						$('.count').each(function () {
+							$(this).prop('Counter',0).animate({
+								Counter: $(this).text()
+							}, {
+								duration: 4000,
+								easing: 'linear',
+								step: function (now) {
+									$(this).text(Math.ceil(now));
+								}
+							});
+						});
+						const progressElements = document.querySelectorAll('.progress');
+						progressElements.forEach(element => {
+							element.classList.add('animate');
+						});
+
+						// stop observing the target element
+						observer.unobserve(targetElement);
+					}
+				}, options);
+
+				// observe the target element
+				observer.observe(targetElement);
+
+
+			</script>
+		</div>
+	</div>
+</div>

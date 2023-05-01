@@ -1,0 +1,115 @@
+<style>
+	.sliderimagebox {
+		height:450px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+	.sliderimagebox img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.slidersubtitle {
+		position: absolute; 
+		bottom: 0; 
+		left: 0; 
+		right: 0; 
+		background-color: rgba(0, 102, 204, 0);
+		padding: 10px;
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 1000;
+		font-size: 30px;
+		line-height: 1;
+		text-transform: uppercase;
+		color: #FFFFFF;
+		padding-bottom:2%;
+		padding-left:4%;
+	}
+	.slider-prev,
+	.slider-next {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		font-size: 24px;
+		color: #FFF;
+	}
+
+	.slider-prev {
+		left: 10px;
+	}
+
+	.slider-next {
+		right: 10px;
+	}
+	@media (max-width: 1025px) {
+		.slider {
+			height:200px;
+			width:100%;
+		}
+		.sliderimagebox {
+			height:200px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			width:100%;
+		}
+		.sliderimagebox img{
+			height:200px;
+			width:100%;
+		}
+		.slidercontainer {
+			height:200px;
+			width:100%;
+		}
+
+	}
+
+
+</style>
+<div class="container slidercontainer">
+	{% set widgetname = 'mainslider' %}
+	{% set default = widgetData(widgetname, [
+		{
+			def: {
+					img: template.path~'/images/slider/1.jpg',
+					description: '1 слайдер',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/slider/1.jpg',
+					description: '2 слайдер',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/slider/1.jpg',
+					description: '3 слайдер',
+				}
+		}
+	]) %}
+
+	{% set list = widgetData(widgetname, default) %}
+	<div class="slider widget-render col-12" data-widget-name="{{widgetname}}"{% if user.isAdmin %} class="widget-render" data-href="/options/widget/settings/{{page.pkid}}/{{widgetname}}"{% endif %}>
+		{% for data in list %}
+		{% set d = getLangData(data) %}
+		<div class="sliderimagebox" style="">
+			<img src="{{d.img}}" alt="Image" style="width:100%">
+			<div class="slidersubtitle">
+				{{d.description}}
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>

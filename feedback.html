@@ -1,0 +1,149 @@
+{% include concat(template.path, '/link.html') %}
+
+<div style="background-color:#F3F7FD;">
+	{% include concat(template.path, '/header.html') %}
+
+	{% include concat(template.path, '/slider.html') %}
+
+	{% include concat(template.path, '/circlelinks.html') %}
+</div>
+
+<style>
+	.feedbackwrapper {
+		align-content:center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width:100%;
+	}
+	.sendemail input {
+		width:100%;
+		padding:0;
+	}
+	.feedback {
+		width:100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+	.answerList {
+		width:100%;
+		text-align:left;
+	}
+	#f_sendemail {
+		margin: 0 auto;
+		display: inline-block;
+		text-align: center;
+		border: 40px solid #7DBEFF;
+		width:45%;
+	}
+	#f_sendemail ol {
+		padding:5%;
+		padding-bottom:0;
+	}
+	#f_sendemail button {
+		padding-bottom:0;
+	}
+	.feed_h2 {
+		display:none;
+	}
+	.sendemail ol {
+		padding-left:0;
+	}
+	.feedback ol li,
+	.review ol li {
+		display: block;
+		clear: both;
+		list-style: none;
+	}
+	.feedback ol li label,
+	.review ol li label {
+		display: block;
+		margin: 0;
+	}
+	.feedback ol li input.text,
+	.review ol li input.text {
+		width: 100%;
+		border: 1px solid #c0c0c0;
+		margin: 2px 0;
+		height: 25px;
+		background: #fff;
+	}
+	.feedback ol li textarea,
+	.review ol li textarea {
+		width: 100%;
+		border: 1px solid #c0c0c0;
+		margin: 2px 0;
+		padding: 2px;
+		background: #fff;
+	}
+	.feedback ol li input.capinput,
+	.review ol li input.capinput {
+		width: 100px;
+		border: 1px solid #c0c0c0;
+		margin: 2px 0;
+		padding: 5px 2px;
+		background: #fff;
+	}
+	.feedback ol li img#capimg,
+	.review ol li img#capimg {
+		border: none;
+		top: 20px;
+		margin: 10px 10px 10px 0;
+		float: left;
+	}
+	li.button {
+		clear: both;
+	} 
+	.item {
+		display: block;
+	}
+	.answerList .name,
+	.answerList .topic,
+	.answerList .message {
+		padding: 0 7px;
+		background-color: #C1DDFD;	
+	}
+	.answerList .name {
+		padding-top: 7px;
+		margin-top: 15px;
+	}
+	.answerList .message {
+		padding-bottom: 7px;
+	}
+	.answerList .answer_message {
+		background: #7DBEFF;
+		padding:2px;
+	}
+	.name .date {
+		float: right;
+	} 
+	.item .name {
+		background-color:#C1DDFD;
+	}
+	.item .topic {
+		background-color:#C1DDFD;
+	}
+	.item .message {
+		background-color:#C1DDFD;
+	}
+	.sendemail ol {
+		margin:0;
+		margin-bottom:5%;
+	}
+</style>
+
+<div class="container py-5">
+	<div class="feedbackwrapper">
+		{{widgetRenderByType(
+			'feedback', {
+				category: 1675927990861460,
+			}
+		)}}
+	</div>
+</div>
+
+{% include concat(template.path, '/footer.html') %}
+
+

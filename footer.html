@@ -1,0 +1,194 @@
+<style>
+	.schoolnamefooter {
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-size: 15px;
+		display: flex;
+		align-items: center;
+		text-transform: uppercase;
+		color: #FFFFFF;
+		padding-bottom:20px;
+	}
+	.schoolinformationfooter {
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-size: 15px;
+		display: flex;
+		align-items: center;
+		text-transform: uppercase;
+		color: #FFFFFF;
+		padding-left:0;
+		padding-bottom:3%;
+	}
+	.footericon {
+		width:5%;
+	}
+</style>
+<footer class="py-3" style="background-color: rgba(0, 102, 204, 1);">
+	<div class="container">
+		<div class="row" style="padding-top:20px;">
+			<div class="col-lg-6 col-sm-12">
+
+				<div class="row">
+					<div class="col-5" id="">
+							{{widgetRender('logo2', {
+							image: template.path~'/images/logo/logo2.png',
+							url: link('/', false),
+							isBlank: false,
+						}, {
+							aclass: '',
+							astyle: '',
+							imgclass: 'logo',
+							imgstyle: 'width:150%;padding-top:5%;',
+						})}}
+					</div>
+					<div class="col-7">
+						<div class="col-12 schoolnamefooter">
+							{{widgetRender('schoolname', 'Название школы')}}
+						</div>
+						<div class="col-12 schoolinformationfooter">
+							&nbsp;&nbsp;
+							<p style="font-weight: 200;">{{widgetRender('schooladdress', 'Адрес школы')}}</p>
+						</div>
+						<div class="col-12 schoolinformationfooter">
+							&nbsp;&nbsp;
+							<p style="font-weight: 200;">{{widgetRender('schoolphone', 'Номер школы')}}</p>
+						</div>
+						<div class="col-12 schoolinformationfooter">
+							&nbsp;&nbsp;
+							<p style="font-weight: 200;">{{widgetRender('schoolemail', 'Почта школы')}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<style>
+				.framediv {
+					height:180pt;
+				}
+			</style>
+			<div class="col-lg-6 col-sm-12 framediv">
+				<iframe class="w-100 h-100" src="https://yandex.kz/map-widget/v1/?ll=71.503786%2C51.157247&mode=search&oid=125982255119&ol=biz&z=16.7" width="560" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+
+
+			</div>
+		</div>
+	</div>
+
+	<style>
+		.sliderfooter {
+			width: 100%;
+			overflow: hidden;
+			padding-top:2%;
+		}
+		.slidefooter {
+			padding: 10px;
+		}
+
+		.slidefooter img {
+			border-radius: 50%;
+			width: 125px;
+		}
+
+
+	</style>
+
+	{% set widgetname = 'carousel' %}
+	{% set default = widgetData(widgetname, [
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+		{
+			def: {
+					img: template.path~'/images/100x100.png',
+					link: 'https://www.google.com',
+				}
+		},
+	]) %}
+	{% set list = widgetData(widgetname, default) %}
+	<div class="sliderfooter widget-render" data-widget-name="{{widgetname}}"{% if user.isAdmin %} class="widget-render" data-href="/options/widget/settings/{{page.pkid}}/{{widgetname}}"{% endif %}>
+		{% for data in list %}
+		{% set d = getLangData(data) %}
+		<div class="slidefooter">
+			<a href="{{d.link}}">
+				<img src="{{d.img}}" alt="Image">
+			</a>
+		</div>
+		{% endfor %}
+		{% for data in list %}
+		{% set d = getLangData(data) %}
+		<div class="slidefooter">
+			<a href="{{d.link}}">
+				<img src="{{d.img}}" alt="Image">
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+
+
+
+
+
+</footer>

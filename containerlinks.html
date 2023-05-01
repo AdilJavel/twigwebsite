@@ -1,0 +1,138 @@
+<style>
+
+	.link-col {
+		padding: 10px;
+		margin-bottom: 20px;
+		background-color: #0066CC;
+		max-height:70px;
+	}
+
+
+	.link {
+
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: left; /* add this line to center horizontally */
+		text-align: center;
+		letter-spacing: -0.02em;
+		text-transform: uppercase;
+		color: #FFFFFF;
+		text-decoration: none; 
+		transition: all 0.1s;
+	}
+	.link a {
+		text-decoration:none;
+		color: #FFF;
+	}
+	.link a:hover {
+		text-decoration:none;
+		color: white;
+		text-shadow: 0 0 1px #FFF;
+	}
+	.link:hover {
+		text-decoration:none;
+		color: white;
+		text-shadow: 0 0 1px #FFF;
+	}
+
+	.link p {
+		margin: 0;
+
+	}
+
+	.link-image {
+		width: 15%;
+		margin-right: 10px; /* add this line to create space between image and text */
+	}
+
+	@media (max-width: 1025px) {
+		.link-image {
+			display:none;
+		}
+		.link-col {
+			padding: 10px;
+			margin-bottom: 20px;
+			background-color: #0066CC;
+			height:70px;
+		}
+
+
+		.link {
+
+			font-family: 'Tahoma';
+			font-style: normal;
+			font-weight: 400;
+			font-size: 18px;
+			line-height: 18px;
+			display: flex;
+			align-items: center;
+			justify-content: left; /* add this line to center horizontally */
+			text-align: center;
+			letter-spacing: -0.02em;
+			text-transform: uppercase;
+			color: #FFFFFF;
+			text-decoration: none; 
+			transition: all 0.1s;
+		}
+	}
+
+
+
+</style>
+<div class="container" style="padding-top:0!important">
+	<div class="row">
+		<div class="col-lg-4 col-sm-6">
+			<div class="link-col">
+				<a class="link" href="{{link('/kazakhlang')}}">
+					<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+					{{translate['cms.link1']}}
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-6">
+			<div class="link-col">
+				<a class="link" href="{{link('/callortalyq')}}">
+					<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+					СЫБАЙЛАС ЖЕМҚОРЛЫҚҚА Қарсы <br> ІС-ҚИМЫЛ call-орталығы: 1424
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-6">
+			<div class="link-col">
+				<a class="link" href="{{link('/senimphone')}}">
+					<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;психологиялыҚ Қызмет <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;сенім телефоны: 150
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-6">
+			<div class="link-col">
+				<a class="link" href="{{link('/qamqorkenes')}}">
+					<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+						   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ҚамҚоршылыҚ кеңесі
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-6">
+			<div class="link-col">
+				<a class="link" href="{{link('/ashana')}}">
+					<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+						   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; мектеп асханасы
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-6">
+			<div class="link-col">
+				<a class="link" href="{{link('/qyzmet')}}">
+					<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+						   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; мемлекеттік Қызмет
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

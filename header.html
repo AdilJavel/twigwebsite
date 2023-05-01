@@ -1,0 +1,368 @@
+<style>
+	.searchicon {
+		width:20px;
+	}
+	.menu {
+		justify-content: space-between; 
+		padding: 0; 
+	}
+	.navbar-collapse.in {
+		display: block !important;
+	}
+
+	.menuwrapper {
+		padding-top:6%;
+	}
+
+	#firstmenu {
+		background-color: #0066CC; 
+		color: white; 
+		height:40px;
+		border-radius:4px;
+	}
+	#firstmenu .active a {
+		color: black;
+	}
+	.firstmenuul .active {
+		color:black
+	}
+	#firstmenu .menuitem {
+		padding: 7px; 
+		font-size: 16px;
+		font-weight:bold;
+	}
+	#firstmenu .menuitem a {
+		color: white;
+	}
+	#firstmenu .hamburger {
+		width: 30px;
+		height: 20px;
+	}
+
+
+
+	#secondmenu a {
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 18px;
+		line-height: 20px;
+		display: flex;
+		align-items: center;
+		text-align: center;
+		text-transform: uppercase;
+
+		color: #0A0A0A;
+	}
+	#secondmenu .active a {
+		color: #053178;
+	}
+
+
+	.logoimg {
+		width: 17%;
+
+	}
+	.logo {
+		width: 85%;
+		transition: transform 0.7s ease-in-out; 
+	}
+	.logo:hover {
+		transform: scale(1.1);
+	}
+
+	}
+	.logotext {
+		margin-right:5%;
+		margin-left:5%;
+	}
+	@media screen and (max-width: 1025px) {
+		#logo-column {
+			display: none;
+		}
+		#socialmedia {
+			display: none;
+		}
+		.menuwrapper {
+			width:100%;
+		}
+		.firstrowmenu {
+			height:6vh;
+			display: flex;
+			align-items: right;
+		}
+		#firstmenu {
+			border-radius: 5px;
+			background-color: #0066CC;
+			color: #FFFFFF;
+			height: auto;
+			width:100%;
+
+		}
+		#navbarNav1 {
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 9999;
+		}
+	}
+	@media screen and (max-width: 1025px) {
+		#socialmedia {
+			margin-bottom: 20px;
+		}
+		.hamburger {
+			width: 30px;
+			height: auto;
+		}
+		#navbarNav1 {
+			background-color: #333;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			padding: 10px;
+		}
+		.navbar-nav {
+			flex-direction: column;
+		}
+		.nav-item {
+			margin-bottom: 10px;
+		}
+		.nav-link {
+			color: #fff;
+			font-weight: bold;
+		}
+		.active .nav-link {
+			color: #f00;
+		}
+		.secondnavbar{
+			padding-right:0;
+		}
+	}
+
+	@media (max-width: 1025px) {
+		#empty-row-1 {
+			display: none; !important
+		}
+		#empty-row-2 {
+			display: none; !important
+		}
+		.bigmenu {
+			display:none;
+		}
+	}
+	@media (min-width: 1026px) {
+		#empty-row-3 {
+			display: none; !important
+		}
+	}
+	@media (min-width: 1026px) {
+		.navbar-toggler {
+		}
+
+	}
+
+
+
+
+</style>
+<div class="container" id="main-header">
+	<div class="container">
+		<div class="row" style="height:30px;"></div>
+		<div class="row">
+			<div class="col-lg-2" id="logo-column">
+				{{widgetRender('logo', {
+					image: template.path~'/images/logo/logo.png',
+					url: link('/', false),
+					isBlank: false,
+				}, {
+					aclass: '',
+					astyle: '',
+					imgclass: 'logo',
+					imgstyle: 'width:100%',
+				})}}
+			</div>
+
+			<div class="col-lg-10 col-sm-12 container" id="empty-columns">
+				<div class="menuwrapper">
+
+					<div class="row align-items-center empty-row" id="empty-row-1">
+						<div class="col-lg-3 col-sm-12" id="socialmedia">
+							<a class="logotext" href="https://www.instagram.com/64ml_astana/"><img class="logoimg"  src="{{template.path}}/images/logo/instagram.png" /></a>
+							<a class="logotext" href="https://www.facebook.com/64ml.astana"><img class="logoimg"  src="{{template.path}}/images/logo/facebook.png"/></a>
+							<a class="logotext" href="https://www.youtube.com/@n64-36/featured"><img class="logoimg"  src="{{template.path}}/images/logo/youtube.png"/></a>
+						</div>
+						<div class="col-lg-9 col-sm-12 firstrowmenu align-items-center">
+							<nav class="navbar navbar-expand-lg desktop-nav-1" id="firstmenu">
+								<div class="navbar-collapse " id="navbarNav1">
+									{% set widgetname = 'mainmenu' %}
+									{% set default = {
+										0: {childs: [1, 2]},
+										1: {uri: '/', lang: {ru: "Главная"}},
+										2: {uri: '/about', lang: {ru: "О сайте"}},
+									} %}
+									{% set data = widgetData(widgetname, default) %}
+									<ul class="navbar-nav menu firstmenuul" style="width:100%; ">
+										{% for child in data.menu['0'].childs %}
+										{% set text = getLangData(data.menu[child].lang) %}
+										{% set uri = link(data.menu[child].uri) %}
+										{% set haschilds = data.menu[child].childs|length > 0 %}
+										<li class="nav-item align-items-center menuitem" {% if page.uri == data.menu[child].uri %} class=" nav-item active"{% endif %}>
+											<a class="nav-link " id="firstmenuitem" href="{{uri}}" target="{{data.menu[child].target}}">
+
+												{% if (text == "Іздеу" or text == "Поиск") %} <img class="searchicon" src="{{template.path}}/images/icons/loopa.png"/> {% else %} {{text}} {% endif %}
+											</a>
+										</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+
+
+
+					<div class="row align-items-center empty-row" id="empty-row-2">
+						<style>
+							.dropdown1 img {
+								width:100%;
+							}
+							.dropdown-menu1 {
+								 width:800px;
+							}
+							.bolditem {
+								font-weight:bold;
+								font-size:16px;
+							}
+							.classicitem {
+								font-size:13px;
+							}
+							div.dropdown-multicol {
+
+                             }
+						</style>
+						{% set widgetname = 'bigmenu' %}
+						{% set default = {
+							0: {childs: [1, 2]},
+							1: {uri: '/', lang: {ru: "Главная"}},
+							2: {uri: '/about', lang: {ru: "О сайте"}},
+						} %}
+						{% set data = widgetData(widgetname, default) %}
+						<div class="col-lg-1 largemenu">
+							<div class="dropdown dropdown1">
+								<button class="btn btn-transparent" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<img class="hamburger" src="{{template.path}}/images/icons/hamburgerblack.png"/>
+								</button>
+								<div class="dropdown-menu dropdown-menu1" aria-labelledby="dropdownMenuButton">
+									<div class="row">
+									{% for child in data.menu['0'].childs %}
+							    		{% set text = getLangData(data.menu[child].lang) %}
+							    		{% set uri = link(data.menu[child].uri) %}
+							    		{% set haschilds = data.menu[child].childs|length > 0 %}
+										<div class="col-sm-4">
+							    		<a class="dropdown-item bolditem" href="{{uri}}" target="{{data.menu[child].target}}">{{text}}</a>
+							    		{% if haschilds %}
+							    			{% for ch1 in data.menu[child].childs %}
+							    				{% set text = getLangData(data.menu[ch1].lang) %}
+							    				{% set uri = link(data.menu[ch1].uri) %}
+							    				{% set haschilds = data.menu[ch1].childs|length > 0 %}
+							    					<a class="dropdown-item classicitem" href="{{uri}}" target="{{data.menu[child].target}}">{{text}}</a>
+							    			{% endfor %}
+							    		{% endif %}
+									    </div>
+							    	{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+						<div class="container align-items-center col-lg-11">
+							<nav class="navbar navbar-expand-lg desktop-nav-1" id="secondmenu" style=" background:none; box-shadow: none; border:none;">
+								<div class="navbar-collapse" id="navbarNav2">
+									{% set widgetname = 'submenu' %}
+									{% set default = {
+									  0: {childs: [1, 2]},
+									  1: {uri: '/', lang: {ru: "Главная"}},
+									  2: {uri: '/about', lang: {ru: "О сайте"}},
+									} %}
+									{% set data = widgetData(widgetname, default) %}
+									<ul class="navbar-nav menu ml-auto align-items-center" style="width: 100%;">
+										{% for child in data.menu['0'].childs %}
+										{% set text = getLangData(data.menu[child].lang) %}
+										{% set uri = link(data.menu[child].uri) %}
+										{% set haschilds = data.menu[child].childs|length > 0 %}
+										<li class="menuitem secondmenuli nav-item{% if page.uri == data.menu[child].uri %} active{% endif %}">
+											<a class="nav-link" id="secondmenuitem" href="{{uri}}" target="{{data.menu[child].target}}">
+												{{text}}
+											</a>
+										</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+
+					<div class="row align-items-center empty-row" id="empty-row-3" style="padding-bottom:5%; margin-bottom:5%;">
+						
+						<div class="container align-items-center">
+							<nav class="navbar navbar-expand-lg desktop-nav-1" id="secondmenu">
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav3" aria-controls="navbarNav3" aria-expanded="false" aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon secondnavbar"><img class="hamburger" src="{{template.path}}/images/icons/hamburgerblack.png"/></span>
+								</button>
+								<div class="collapse navbar-collapse" id="navbarNav3">
+									<ul class="navbar-nav menu ml-auto align-items-center" style="width: 100%">
+										{% set widgetname = 'submenu' %}
+										{% set default = {
+										  0: {childs: [1, 2]},
+										  1: {uri: '/', lang: {ru: "Главная"}},
+										  2: {uri: '/about', lang: {ru: "О сайте"}},
+										} %}
+										{% set data = widgetData(widgetname, default) %}
+										{% for child in data.menu['0'].childs %}
+										{% set text = getLangData(data.menu[child].lang) %}
+										{% set uri = link(data.menu[child].uri) %}
+										{% set haschilds = data.menu[child].childs|length > 0 %}
+										<li class="menuitem secondmenuli nav-item{% if page.uri == data.menu[child].uri %} active{% endif %}">
+											<a class="nav-link" id="secondmenuitem" href="{{uri}}" target="{{data.menu[child].target}}">
+												{{text}}
+											</a>
+										</li>
+										{% endfor %}
+
+										{% set widgetname = 'mainmenu' %}
+										{% set default = {
+											0: {childs: [1, 2]},
+											1: {uri: '/', lang: {ru: "Главная"}},
+											2: {uri: '/about', lang: {ru: "О сайте"}},
+										} %}
+										{% set data = widgetData(widgetname, default) %}
+										{% for child in data.menu['0'].childs %}
+										{% set text = getLangData(data.menu[child].lang) %}
+										{% set uri = link(data.menu[child].uri) %}
+										{% set haschilds = data.menu[child].childs|length > 0 %}
+										<li class="menuitem secondmenuli nav-item{% if page.uri == data.menu[child].uri %} active{% endif %}">
+											<a class="nav-link" id="secondmenuitem" href="{{uri}}" target="{{data.menu[child].target}}">
+												{{text}}
+											</a>
+										</li>
+										{% endfor %}
+
+									</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+
+</script>

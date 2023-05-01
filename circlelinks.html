@@ -1,0 +1,81 @@
+<style>
+	#circlecolumn {
+		display:flex;
+		align-items:center;
+	}
+	.circleimage {
+		width:55%;
+		transition: all 0.5s ease;
+	}
+	.circlelink{
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 18px;
+		line-height: 22px;
+		text-transform: uppercase;
+	}
+	.circlelink1{
+		color: #086B9E;
+	}
+	.circlelink2{
+		color: #7946AC;
+	}
+	.circlelink3{
+		color: #077A07;
+	}
+	.circlelink4{
+		color: #D13D00;
+	}
+	.circlelink5{
+		color: #689D02;
+	}
+	
+	@media (max-width: 1025px) {
+		#circle-column {
+			height:150px;
+			width: 150px;
+		}
+		.circleimage {
+			width:50%;
+		}
+		
+
+	}
+	
+</style>
+<div class="container">
+	<div class="row justify-content-center my-3 no-gutters mx-3">
+		<div class="col-lg justify-content-center text-center col" id="circlecolumn">
+			<a href="{{link('/sabak')}}">
+				<img class="circleimage" src="{{template.path}}/images/links/1.png" alt="Link 1" />
+				<p class="circlelink circlelink1">сабақ кестесі</p>
+			</a>
+		</div>
+		<div class="col-lg justify-content-center text-center col" id="circlecolumn">
+			<a href="{{link('/qonyrau')}}">
+				<img class="circleimage" src="{{template.path}}/images/links/2.png" alt="Link 1" />
+				<p class="circlelink circlelink2">қоңырау кестесі</p>
+			</a>
+		</div>
+		<div class="col-lg justify-content-center text-center col" id="circlecolumn">
+			<a href="https://portal.kundelik.kz">
+				<img class="circleimage" src="{{template.path}}/images/links/3.png" alt="Link 1" />
+				<p class="circlelink circlelink3">kundelik.kz</p>
+			</a>
+		</div>
+		<div class="col-lg justify-content-center text-center col" id="circlecolumn">
+			<a href="{{link('/uirme')}}">
+				<img class="circleimage" src="{{template.path}}/images/links/4.png" alt="Link 1" />
+				<p class="circlelink circlelink4">Yйірмелер</p>
+			</a>
+		</div>
+		<div class="col-lg justify-content-center text-center col" id="circlecolumn">
+			<a href="{{link('/qabyldau')}}">
+				<img class="circleimage" src="{{template.path}}/images/links/5.png" alt="Link 1" />
+				<p class="circlelink circlelink5">мектепке қабылдау </p>
+			</a>
+		</div>
+
+	</div>
+</div>

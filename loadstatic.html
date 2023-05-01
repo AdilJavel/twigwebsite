@@ -1,0 +1,181 @@
+{% include concat(template.path, '/link.html') %}
+
+<div style="background-color:#F3F7FD;">
+	{% include concat(template.path, '/header.html') %}
+
+	{% include concat(template.path, '/slider.html') %}
+
+	{% include concat(template.path, '/circlelinks.html') %}
+</div>
+
+
+<div class="container py-5">
+	<h2>{{widgetRender('static_header', translate['cms.page.load'])}}</h2>
+	<p>
+		{{widgetRender('static_content','lorem epsum dolar')}}
+	</p>
+	<span class="article_separator">&nbsp;</span>
+	{% set onpage = 30 %}
+	{% set start = (xget('page', 1) - 1) * onpage %}
+
+	{% if xget('pkid') != '' %}
+	{% else %}
+		{% set filter = {} %}
+		{% set text = xget('text') %}
+
+		{% if text != '' and text is not null %}
+			{% set filter = xadd(filter, '%text', text) %}
+		{% endif %}
+
+		{% set filter = xadd(filter, 'lang', {0: site.lang}) %}
+
+
+		{% set widgetname = 'fileslist' %}
+		{% set res = widgetDataByType(
+			'dynamiclist', {
+				widget_name: widgetname,
+				filter: filter,
+				start: start,
+				limit: onpage,
+				format: 2,
+				order: {
+					pos: 'desc',
+				},
+			}
+		) %}
+		{% set list = res.data %}
+		{% set list_count = res.count %}
+
+		{% if list|length == 0 %}
+			<div data-widget-name="{{widgetname}}"{% if user.isAdmin %} class="widget-render" data-href="{{link(urlGetAdd('/options/widget/settings/'~page.pkid~'/'~widgetname, 'account', user.adminAccount))}}"{% endif %}>
+				<center><i>Список пуст</i></center>
+			</div>
+		{% else %}
+			<div data-widget-name="{{widgetname}}"{% if user.isAdmin %} class="widget-render" data-href="{{link(urlGetAdd('/options/widget/settings/'~page.pkid~'/'~widgetname, 'account', user.adminAccount))}}"{% endif %}>
+				<style type="text/css">
+				.gbtn {
+					float: right;
+					margin: 0 3px;
+					padding: 5px 10px;
+					-webkit-border-radius: 4px;
+					-moz-border-radius: 4px;
+					border-radius: 4px;
+					color: #fff;
+				}
+				.gbtn.download {
+					background: #008d0a;
+					color: #fff;
+				}
+				.gbtn.download:hover {
+					background: #06ac12;
+					color: #fff;
+				}
+				.gbtn.view {
+					background: #036096;
+					color: #fff;
+				}
+				.gbtn.view:hover {
+					background: #0075b9;
+					color: #fff;
+				}
+				</style>
+				<table style="width: 100%; border: none;" class="lib_tab">
+					{% for dt in list %}
+						{% set data = getLangData(dt) %}
+						{% if gettype(data.document) == 'string' %} 
+							<tr class="sites2" style="border-bottom: 1px solid #ccc; padding: 5px 0; margin: 5px 0;"> 
+								<td style="width: 55px;"> 
+									<div class="img_wr"> 
+										<a href="{{data.document}}" target="_blank"> 
+											<img src="/img/fileformats/{{getExtensionsByString(data.document|lower)}}.png" width="50" height="50"> 
+										</a> 
+									</div> 
+								</td> 
+								<td>
+									<b>{{data.name}}</b><br/>
+									<small>{{translate['site.files.lastchange']}}: {{dt.gmtimeChange | iostrtodate('d.m.Y', 'Asia/Almaty')}}</small>
+									<small>{{translate['site.files.filesize']}}: {{formatSizeUnits(data.document|filesize, 2, ['B', 'KB', 'MB', 'GB', 'TB', 'PB'])}}</small>
+								</td>
+								<td style="width: 75px;">
+									{% if(checkExtensionsByString(['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt'], data.document|lower)) %} 
+										{% set dohref = "http://view.officeapps.live.com/op/view.aspx?src=" %} 
+										<a href="{{dohref}}//{{site.domain}}{{data.document}}" class="gbtn view" target="_blank" style="color: #fff">{{translate['site.files.view']}}</a> 
+									{% endif %}
+									{% if(checkExtensionsByString(['pdf'], data.document|lower)) %} 
+										<a href="//{{site.domain}}{{data.document}}" class="gbtn view" target="_blank" style="color: #fff">{{translate['site.files.view']}}</a> 
+									{% endif %}
+								</td>
+								<td style="width: 75px;">
+									<a href="{{data.document}}" class="gbtn download" style="color: #fff" download>{{translate['site.files.download']}}</a>
+								</td>
+							</tr>
+						{% endif %}
+						{% if i == 5 %}<div class="clr"></div>{% endif %}
+						{% set i = i + 1 %}
+					{% endfor %}
+				</table>
+			</div>
+
+			{% set page = max(xget('page', 0), 1) %}
+			{% set alfa = 1 %}
+			{% set count = (list_count / onpage) | ceil %}
+
+			{% if count > 1 %}
+				<div class="pagination">
+					<center>
+						<ul>
+							<li class="cursor" data-page="{{max(page - 1, 1)}}"><a><<</a></li>
+							{% set class="cursor" %}
+							{% if 1 == page %}
+								{% set class="disabled" %}
+							{% endif %}
+							<li class="{{class}}" data-page="1">
+								<a href="{{link(urlGetAdd(site.fulluri, 'page', 1))}}">1</a>
+							</li>
+
+							{% if (page - alfa > 2) %}
+								<li class="disabled"><a>...</a></li>
+							{% endif %}
+
+							{% set a1 = max(page - alfa, 2) %}
+							{% set a2 = min(page + alfa, count - 1) %}
+							{% if a2 >= a1 %}
+								{% for i in range(a1, a2) %}
+									{% set class="cursor" %}
+									{% if i == page %}
+										{% set class="disabled" %}
+									{% endif %}
+									<li class="{{class}}" data-page="{{i}}">
+										<a href="{{link(urlGetAdd(site.fulluri, 'page', i))}}">{{i}}</a>
+									</li>
+								{% endfor %}
+							{% endif %}
+
+							{% if (page + alfa < count - 1) %}
+								<li class="disabled"><a>...</a></li>
+							{% endif %}
+
+							{% if (count > 1) %}
+								{% set class="cursor" %}
+								{% if (count == page) %}
+									{% set class="disabled" %}
+								{% endif %}
+								<li class="{{class}}" data-page="{{count}}">
+									<a href="{{link(urlGetAdd(site.fulluri, 'page', count))}}">{{count}}</a>
+								</li>
+							{% endif %}
+							<li class="cursor" data-page="{{page + 1}}">
+								<a href="{{link(urlGetAdd(site.fulluri, 'page', page + 1))}}">>></a>
+							</li>
+						</ul>
+					</center>  
+				</div>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+</div>
+
+{% include concat(template.path, '/footer.html') %}
+
+
+

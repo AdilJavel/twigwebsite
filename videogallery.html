@@ -1,0 +1,127 @@
+{% include concat(template.path, '/link.html') %}
+
+<div style="background-color:#F3F7FD;">
+	{% include concat(template.path, '/header.html') %}
+	
+	{% include concat(template.path, '/slider.html') %}
+
+	{% include concat(template.path, '/circlelinks.html') %}
+</div>
+
+
+<div class="container py-5">
+	<h2>{{widgetRender('static_header', 'Видеогалерея')}}</h2>
+	<span class="article_separator">&nbsp;</span>
+	{% set album = xget('album', 0) %}
+	{% set album = album == '' ? 0 : album %}
+	{% set mfile = xget('mfile') %}
+	{% set mtype = xget('mtype') %}
+	{% set gallery = widgetDataByType('gallery', {
+		widget_name: 'video_gallery',
+		gallery_type: 'video',
+	}).data %}
+	{% if not mtype %}
+		{% if album != 0 %}
+			{% set selvideos = [] %}
+			{% set selalbum = [] %}
+			{% for item in gallery %}
+				{% if item.pkid == album %}
+					{% set selalbum = item %}
+					{% set selvideos = item.content %}
+				{% endif %}
+			{% endfor %}
+			<table>
+				{% if selalbum.pkid == album %}
+					<tr>
+						<td><a href="{{UrlGetAdd(link(page.uri), 'album', selalbum.parent_pkid)}}">{{translate['cms.btn.backtop']}}</a></td>
+					</tr>
+				{% endif %}
+				<tr><td></td></tr>
+				<tr>
+					<td>{{translate['cms.albums']}}</td>
+				</tr>
+				{% for item in gallery %}
+					{% if item.parent_pkid != 0 %}
+						{% if item.parent_pkid == album %}
+							<tr>
+								<td><a href="{{UrlGetAdd(link(page.uri), 'album', item.pkid)}}">{{item.title}}</a></td>
+							</tr>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</table>
+			{% if selvideos|length > 0 %}
+				<table>
+					{% for key, video in selvideos %}
+						<tr>
+							<td><a href="{{UrlGetAdd(link(page.uri), 'album', selalbum.pkid, 'mfile', key, 'mtype', video.type)}}">{{video.type == 2 ? 'videofile' : 'videolink'}} {{video.name}}</a></td>
+						</tr>
+					{% endfor %}
+				</table>
+			{% else %}
+				<center>{{translate['cms.albums.empty']}}</center>
+			{% endif %}
+		{% else %}
+			<table>
+				<tr>
+					<td>{{translate['cms.albums']}}</td>
+				</tr>
+				{% for item in gallery %}
+					{% if item.parent_pkid == 0 %}
+						<tr>
+							<td><a href="{{UrlGetAdd(link(page.uri), 'album', item.pkid)}}">{{item.title}}</a></td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</table>
+		{% endif %}
+	{% else %}
+		{% set selvideos = [] %}
+		{% set selalbum = [] %}
+		{% for item in gallery %}
+			{% if item.pkid == album %}
+				{% set selalbum = item %}
+				{% set selvideos = item.content %}
+			{% endif %}
+		{% endfor %}
+		<table>
+			<tr>
+				<td><a href="{{UrlGetAdd(link(page.uri), 'album', album)}}">{{translate['cms.btn.backlist']}}</a></td>
+			</tr>
+		</table>
+		{% if mtype == 2 %}
+			{% set link = '' %}
+			{% set ext = '' %}
+			{% for key, item in selvideos %}
+				{% if mfile == key %}
+					{% set link = item.link %}
+					{% set ext = item.link | getExtension %}
+				{% endif %}
+			{% endfor %}
+			<div style="text-align: center; margin: 0 auto; width: 650px; border: 1px dotted grey;">
+				<!-- Chang URLs to wherever Video.js files will be hosted -->
+				<link href="/css/widgets/videogallery/video-js.css" rel="stylesheet" type="text/css">
+				<!-- video.js must be in the <head> for older IEs to work. -->
+				<script src="/js/widgets/videogallery/video.js"></script>
+				<!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+				<script>videojs.options.flash.swf = "/js/widgets/videogallery/video-js.swf";</script>
+				<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="650" height="350" poster="/img/cms/videogallery/videofile3.png" data-setup="{}"><!--width="640" height="264"-->
+					<source src="{{link}}" type="video/{{ext}}" />
+				</video>
+			</div>
+		{% else %}
+			{% for key, item in selvideos %}
+				{% if mfile == key %}
+					<div style="text-align: center; margin-top: 15px;">
+						<iframe width="560" height="315" src="//www.youtube.com/embed/{{item.link | youtubeIdFromLink}}" frameborder="0" allowfullscreen></iframe>
+					</div>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+</div>
+
+{% include concat(template.path, '/footer.html') %}
+
+
+

@@ -1,0 +1,113 @@
+{% include concat(template.path, '/link.html') %}
+
+<div style="background-color:#F3F7FD;">
+	{% include concat(template.path, '/header.html') %}
+</div>
+
+
+<div class="container py-5">
+	<h2>{{widgetRender('static_header', 'Фотогалерея')}}</h2>
+	<span class="article_separator">&nbsp;</span>
+	{% set album = xget('album', 0) %}
+	{% set album = album == '' ? 0 : album %}
+	{% set gallery = widgetDataByType('gallery', {
+			widget_name: 'photo_gallery',
+			gallery_type: 'photo',
+		}).data %}
+	{% if album != 0 %}
+	{% set selimages = [] %}
+	{% set selalbum = [] %}
+	{% for item in gallery %}
+	{% if item.pkid == album %}
+	{% set selalbum = item %}
+	{% set selimages = item.content %}
+	{% endif %}
+	{% endfor %}
+	<table>
+		{% if selalbum.pkid == album %}
+		<tr>
+			<td><a href="{{UrlGetAdd(link(page.uri), 'album', selalbum.parent_pkid)}}">{{translate['cms.btn.backtop']}}</a></td>
+		</tr>
+		{% endif %}
+		<tr><td></td></tr>
+		<tr>
+			<td>{{translate['cms.albums']}}</td>
+		</tr>
+		{% for item in gallery %}
+		{% if item.parent_pkid != 0 %}
+		{% if item.parent_pkid == album %}
+		<tr>
+			<td><a href="{{UrlGetAdd(link(page.uri), 'album', item.pkid)}}">{{item.title}}</a></td>
+		</tr>
+		{% endif %}
+		{% endif %}
+		{% endfor %}
+	</table>
+	{% if selimages|length > 0 %}
+	<table>
+		{% for image in selimages %}
+		<tr>
+			<td>
+				<img style="width: 200px;" src="{{image.link}}" onclick="openForm('{{image.link}}')"/>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% else %}
+	<center>{{translate['cms.albums.empty']}}</center>
+	{% endif %}
+	{% else %}
+	<table>
+		<tr>
+			<td>{{translate['cms.albums']}}</td>
+		</tr>
+		{% for item in gallery %}
+		{% if item.parent_pkid == 0 %}
+		<tr>
+			<td><a href="{{UrlGetAdd(link(page.uri), 'album', item.pkid)}}">{{item.title}}</a></td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</table>
+	{% endif %}
+	<script>
+		function openForm(imageSrc) {
+			// create a form element
+			var form = document.createElement("form");
+
+			// add form elements, e.g. text input, radio button, etc.
+
+			// append the form to the body
+			document.body.appendChild(form);
+
+			// display the form as a modal using CSS
+			form.style.position = "fixed";
+			form.style.top = "50%";
+			form.style.left = "50%";
+			form.style.transform = "translate(-50%, -50%)";
+			form.style.backgroundColor = "white";
+			form.style.border = "1px solid black";
+			form.style.padding = "20px";
+			form.style.zIndex = "999";
+
+			// create an image element and add it to the form
+			var image = document.createElement("img");
+			image.src = imageSrc;
+			image.style.width = "100%";
+			form.appendChild(image);
+
+			// add a close button to the form
+			var closeButton = document.createElement("button");
+			closeButton.innerText = "{{translate['cms.close']}}";
+			closeButton.style.marginTop = "10px";
+			closeButton.addEventListener("click", function() {
+				document.body.removeChild(form);
+			});
+			form.appendChild(closeButton);
+		}
+	</script>
+</div>
+
+{% include concat(template.path, '/footer.html') %}
+
+

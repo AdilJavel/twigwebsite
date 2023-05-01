@@ -1,0 +1,288 @@
+{% include concat(template.path, '/link.html') %}
+
+<div style="background-color:#F3F7FD;">
+	{% include concat(template.path, '/header.html') %}
+</div>
+
+<style>
+	.recentnewsheader {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		background-color: #0066CC; 
+		color: white;
+		margin-bottom: 20px;
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 34px;
+		display: flex;
+		align-items: center;
+		text-align: center;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+
+	.container-text {
+		margin: 10px 0 0 0;
+		text-align: left;
+		background-color: white;
+		border-left: 2px solid #0066CC;
+		padding: 10px;
+		height: 100%;
+	}
+	.container-text a {
+		color:black;
+		text-decoration:none
+	}
+	.container-text a:hover {
+		color:black;
+		text-decoration:none
+	}
+
+	.container-news {
+		margin-bottom: 20px;
+		background-color: #FFFFFF;
+	}
+	.container-news img {
+		width: 350px;
+		height: 200px;
+		object-fit: cover;
+	}
+	.newscolumns {
+
+	}
+	.recentnewsrow {
+	}
+	.news_p img {
+		display: block;
+		margin: auto;
+	}
+
+
+
+	.pagination {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.pagination ul {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.pagination li {
+		margin-right: 5px;
+		width: 25px; /* Set a fixed width for each element */
+		text-align: center;
+	}
+
+	.pagination li:last-child {
+		margin-right: 0;
+	}
+
+	.pagination a {
+		display: block;
+		padding: 5px;
+		text-decoration: none;
+		color: #333;
+		font-size: 16px;
+		transition: transform 0.2s ease-in-out;
+	}
+
+	.pagination a:hover {
+		transform: scale(1.2);
+	}
+
+
+	@media (max-width: 768px) {
+		.recentnewsrow {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+		.newscolumns {
+			flex-basis: 100%;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+		.container-news {
+			width:100%:
+		}
+		.container-text {
+			height:auto;
+		}
+	}
+
+
+
+</style>
+<div class="container py-5">
+	{% set widgetname = 'blog' %}
+	{% set pkid = xget('pkid') %}
+	{% if pkid is not null %}
+	{% set addViews = ioCallAction(
+			'io.model.cms20.content.news.addViews', {
+				pkid: pkid,
+			}
+		) %}
+	{% set data = widgetDataByType(
+			'blog', {
+				widget_name: widgetname,
+				start: 0,
+				limit: 1,
+				filter: {
+					public: 1,
+					lang: (site.languages[currentlang] is defined ? currentlang : site.langdefault),
+					pkid: pkid,
+					'<=ugmtimePublic': time(),
+				},
+				viewall: 1,
+			}
+		).res.0 %}
+	{{setTitlePre(data.head~' - '~page.name)}}
+	{% if data.image is not null and data.image != '' %}
+	{{setMetaImage('//'~site.domain~'/files/sites/'~data.site_owner~'/'~data.widget_name~'/'~data.image)}}
+	{% endif %}
+	{% if data.tag %}
+	{{setMetaKeywordsPre(data.tag)}}
+	{% endif %}
+	{{writeMetaArticle(widgetname, pkid, currentlang)}}
+	<div class="news_p">
+		{% set dataimage = '/img/cms/no-img.jpg' %}
+		{% if data.image is not null and data.image != '' %}
+		{% set dataimage = '/files/sites/'~data.site_owner~'/'~data.widget_name~'/'~data.image %}
+		{% endif %}
+		<img src="{{dataimage}}" />
+		<h2>{{data.head}}</h2>
+		{{data.description | youTubeVideo | purify | raw}}
+		<br>
+		<span class="date">{{data.gmtimePublic | iostrtodate('d.m', 'Asia/Almaty')}}</span>
+		{% if data.domain is not null %}
+		{% set href =  link('http://'~data.domain~'/news/?pkid='~data.pkid) %}
+		{% endif %}
+		<br/>
+		<p><a href="{{href}}" target="_blank">{{translate['eop.view_news_on_site']}}</a></p>
+		<p><a href="{{link('/news')}}">{{translate['eop.all_news']}}</a></p>
+	</div>
+	{% else %}
+	{% set filter = {public: 1, lang: (site.languages[currentlang] is defined ? currentlang : site.langdefault), '<=ugmtimePublic': time()} %}
+	{% if xget('category') is not null %}
+	{% set filter = xadd(filter, 'category', xget('category')) %}
+	{% endif %}
+	{% if xget('text') is not null %}
+	{% set filter = xadd(filter, 'text', xget('text')) %}
+	{% endif %}
+	{% if xget('city') is not null and neqi(xget('city'), '0') %}
+	{% set filter = xadd(filter, 'city', xget('city')) %}
+	{% elseif xget('region') is not null and neqi(xget('region'), '0') %}
+	{% set filter = xadd(filter, 'region', xget('region')) %}
+	{% elseif xget('country') is not null and neqi(xget('country'), '0') %}
+	{% set filter = xadd(filter, 'country', xget('country')) %}
+	{% endif %}
+	{% set onpage = 6 %}
+	{% set start = (xget('page', 1) - 1) * onpage %}
+	{% set r = widgetDataByType(
+			'blog', {
+				widget_name: widgetname,
+				start: start,
+				limit: onpage,
+				filter: filter,
+				order: {
+					ugmtimePublic: 'desc',
+				},
+			}
+		) %}
+	{% set list = r.res %}
+	{% set list_count = r.count %}
+	<div class="view_sp" data-widget-name="{{widgetname}}"{% if user.isAdmin %} data-href="{{link(urlGetAdd('/options/widget/settings/'~page.pkid~'/'~widgetname, 'account', user.adminAccount))}}"{% endif %}>
+		<div class="container recentnewsheader">
+			<p style="margin-bottom:0; margin:0.5%;">{{translate['cms.page.news']}}</p>
+		</div>
+		<div class="row recentnewsrow">
+			{% set break = false %}
+			{% set recentcounter = 0  %}
+			{% for data in list if not break %}
+			{% set href = link('/news/?pkid='~data.pkid) %}
+			{% if data.domain is not null %}
+			{% set href = link('http://'~data.domain~'/news/?pkid='~data.pkid) %}
+			{% endif %}
+			<div class="col-lg-4 col-sm-12 newscolumns">
+				<div class="container-news">
+					{% set data_image = template.path~'/images/noimage.png' %}
+					{% if data.image != '' %}
+					{% set data_image = '/files/sites/'~data.site_owner~'/'~data.widget_name~'/'~data.image %}
+					{% endif %}
+
+					<a href="{{link("/news/?pkid="~data.pkid)}}"><img src="{{data_image}}" alt="Container 1" /></a>
+					<div class="container-text"><a href="{{link("/news/?pkid="~data.pkid)}}">{{data.head}}</a></div>
+
+				</div>
+			</div>
+			{% set recentcounter = recentcounter + 1 %}
+			{% endfor %}
+		</div>
+		{% set ppage = max(xget('page', 0), 1) %}
+		{% set alfa = 1 %}
+		{% set count = (list_count / onpage) | ceil %}
+		{% if count > 1 %}
+		<div class="pagination">
+			<center>
+				<ul>
+					<li class="cursor" data-page="{{max(ppage - 1, 1)}}"><a><<</a></li>
+					{% set class = 'cursor' %}
+					{% if 1 == ppage %}
+					{% set class = 'disabled' %}
+					{% endif %}
+					<li class="{{class}}" data-page="1">
+						<a href="{{link(urlGetAdd(site.fulluri, 'page', 1))}}">1</a>
+					</li>
+					{% if ppage - alfa > 2 %}
+					<li class="disabled"><a>...</a></li>
+					{% endif %}	
+					{% set a1 = max(ppage - alfa, 2) %}
+					{% set a2 = min(ppage + alfa, count - 1) %}
+					{% if a2 >= a1 %}
+					{% for i in range(a1, a2) %}
+					{% set class = 'cursor' %}
+					{% if i == ppage %}
+					{% set class = 'disabled' %}
+					{% endif %}
+					<li class="{{class}}" data-page="{{i}}">
+						<a href="{{link(urlGetAdd(site.fulluri, 'page', i))}}">{{i}}</a>
+					</li>
+					{% endfor %}
+					{% endif %}
+					{% if ppage + alfa < count - 1 %}
+					<li class="disabled"><a>...</a></li>
+					{% endif %}
+					{% if count > 1 %}
+					{% set class = 'cursor' %}
+					{% if count == ppage %}
+					{% set class = 'disabled' %}
+					{% endif %}
+					<li class="{{class}}" data-page="{{count}}">
+						<a href="{{link(urlGetAdd(site.fulluri, 'page', count))}}">{{count}}</a>
+					</li>
+					{% endif %}
+					<li class="cursor" data-page="{{ppage + 1}}">
+						<a href="{{link(urlGetAdd(site.fulluri, 'page', ppage + 1))}}">>></a>
+					</li>
+				</ul>
+			</center>  
+		</div>
+		{% endif %}
+	</div>
+	{% endif %}
+</div>
+
+{% include concat(template.path, '/footer.html') %}
+

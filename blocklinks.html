@@ -1,0 +1,242 @@
+<style>
+	.imagebox {
+		margin-bottom:5%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+	.surveybox {
+		margin-bottom:5%;
+		display: flex;
+		border: blue 1px solid;
+		height:160px;
+		align-items: center;
+		text-align: center;
+		margin:0;
+	}
+	.aaa {
+		display: flex;
+		align-items: center;
+	}
+
+	.subtitle {
+		position: absolute; 
+		bottom: 0; 
+		left: 0; 
+		right: 0; 
+		padding: 10px;
+		font-family: 'Tahoma';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 15px;
+		line-height: 16px;
+		align-items: center;
+		text-align: center;
+		text-transform: uppercase;
+		background-color: rgba(0, 102, 204, 0.5);
+		color: #FFFFFF;
+		backdrop-filter: blur(5px);
+	}
+
+	.directorimagebox {
+		width:100%;
+	}
+
+
+
+
+	/* Add transition and initial style to the subtitle div */
+	.subtitle {
+		height: 17%;
+		transition: height 0.5s ease;
+	}
+	.imagebox:hover img {
+		filter: blur(0.1px);
+	}
+
+	/* Add style to the subtitle div and image when hovering over the link */
+	.imagebox:hover .subtitle {
+		height: 22%; /* full height of the image */
+	}
+
+	.poll-form {
+		margin:0;
+	}
+
+	.poll-item {
+		border-bottom: 1px solid #ccc;
+		max-width:80%;
+	}
+	.poll-item .poll-sendanswer-btn {
+		border: 1px solid #ccc;
+		text-align: center;
+		background: #ececec;
+		font-size: 10px;
+		height: 20px;
+	}
+	.poll-item .poll-sendanswer-btn:hover,
+	.poll-item .poll-sendanswer-btn.process {
+		background: #ccc;
+		color: #fff;
+		cursor: pointer;
+	}
+	#poll-title,
+	.poll-title {
+		font-weight: bold;
+	}
+	.poll-title {
+		font-size: 15px;
+		padding:0;
+	}
+	.poll-form p {
+		display:none;
+		margin:0;
+	}
+	#polling label,
+	.poll-item label {
+		display: inline;
+	}
+	.chartscontainer ul {
+		padding-left:0;
+		width:100%;
+	}
+	#statistika {
+		padding-left:5px;
+	}
+	.imageboximage {
+		width:100%; 
+		height:428px
+	}
+	.imageboximage2 {
+		height: 250px; 
+		width:100%
+	}
+	.surveybox {
+		position: relative; 
+		max-height:350px; 
+		width:350px;
+
+	}
+	.poll-avtor {
+		display:none;	
+	}
+	.poll-sendanswer-btn {
+		padding:0;
+	}
+	.polls {
+		overflow: auto;
+		padding:5px;
+	}
+	@media (max-width: 1025px) {
+		.imageboximage {
+			width:100%; 
+			height:auto;
+		}
+		.imageboximage2 {
+			height: auto; 
+			width:100%
+		}
+		.surveybox {
+			position: relative; 
+			height:auto; 
+			width:100%;
+		}
+
+	}
+
+
+</style>
+<div class="container">
+	<div class="row d-flex align-items-stretch">
+		<div class="col-lg-4 col-sm-12" >
+			<a href="{{link('/director')}}">
+				<div class="imagebox" style="position: relative;">
+					{{widgetRender('director', {
+						image: template.path~'/images/image.jpg',
+						isBlank: false,
+					}, {
+						aclass: '',
+						astyle: '',
+						imgclass: 'imageboximage',
+						imgstyle: '',
+						container: 'div',
+						class: 'directorimagebox',
+					})}}
+					<div class="subtitle">
+						{{widgetRender('director_text', 'Директор')}}
+
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-4 col-sm-12" >
+			<div class="row aaa">
+				<div class="col">
+					<a href="https://www.akorda.kz/kz/state_symbols/about_state_symbols">
+						<div class="imagebox" style="position: relative;">
+							<img src="{{template.path}}/images/ramizder.jpg" alt="Image" class="imageboximage2" style="">
+							<div class="subtitle" style="">
+								{{translate['cms.gossymbols']}}
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="row aaa">
+				<div class="col">
+					<div class="link-col">
+						<a class="link" href="{{link('/akimshilik')}}">
+							<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; мектеп әкімшігілі
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="link-col">
+						<a class="link" href="{{link('/teachers')}}">
+							<img class="link-image" src="{{template.path}}/images/icons/planet.png" alt="planet">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; педагогикалык  ұжым   
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-sm-12" >
+			<div class="row">
+				<div class="col">
+					<a href="https://www.akorda.kz/kz/addresses">
+						<div class="imagebox" style="position: relative;">
+							<img src="{{template.path}}/images/president.jpg" alt="Image"  class="imageboximage2" style="">
+							<div class="subtitle" style="">
+								{{translate['cms.president']}}
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="surveybox row" style="">
+						<div class="col-7 p-0">
+							{{widgetRenderByType('polls', {})}}
+							<!--<img src="https://via.placeholder.com/350x160" alt="Image" style="width: 100%; height: 160px;">-->
+						</div>
+						<div class="col-5">
+							<ul id="statistika">
+								<li>{{translate['cms.site.stat.month']}}<span>: {{site.stat.month}}</span></li>
+								<li>{{translate['cms.site.stat.week']}}<span>: {{site.stat.week}}</span></li>
+								<li>{{translate['cms.site.stat.yestarday']}}<span>: {{site.stat.yestarday}}</span></li>
+								<li>{{translate['cms.site.stat.today']}}<span>: {{site.stat.today}}</span></li>
+								<li>{{translate['cms.site.stat.online']}}:<span>: {{site.stat.online}}</span></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

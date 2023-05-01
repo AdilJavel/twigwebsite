@@ -1,0 +1,17 @@
+{% include concat(template.path, '/link.html') %}
+
+<div style="background-color:#F3F7FD;">
+	{% include concat(template.path, '/header.html') %}
+</div>
+
+
+<div class="container py-5">
+	<h2>{{widgetRender('static_header', translate['cms.page.static'])}}</h2>
+	<p>
+		{{widgetRender('static_content','lorem epsum dolar')}}
+	</p>
+</div>
+
+{% include concat(template.path, '/footer.html') %}
+
+
